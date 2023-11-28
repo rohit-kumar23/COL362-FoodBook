@@ -1,0 +1,11 @@
+COPY Place from '/tmp/project_dataset/data/place.csv' DELIMITER '|' CSV HEADER;
+COPY Tag from '/tmp/project_dataset/data/tag.csv' DELIMITER '|' CSV HEADER;
+COPY Comment from '/tmp/project_dataset/data/comment.csv' DELIMITER '|' CSV HEADER;
+COPY Recipe from '/tmp/project_dataset/data/recipe.csv' DELIMITER '|' CSV HEADER;
+COPY Users from '/tmp/project_dataset/data/users.csv' DELIMITER '|' CSV HEADER;
+COPY Comment_hasTag_Tag from '/tmp/project_dataset/data/Comment_hasTag_Tag.csv' DELIMITER '|' CSV HEADER;
+COPY Recipe_hasTag_Tag from '/tmp/project_dataset/data/Recipe_hasTag_Tag.csv' DELIMITER '|' CSV HEADER;
+COPY User_hasInterest_Tag from '/tmp/project_dataset/data/User_hasInterest_Tag.csv' DELIMITER '|' CSV HEADER;
+COPY User_likes_Comment from '/tmp/project_dataset/data/User_likes_Comment.csv' DELIMITER '|' CSV HEADER;
+COPY User_likes_Recipe from '/tmp/project_dataset/data/User_likes_Recipe.csv' DELIMITER '|' CSV HEADER;
+COPY User_knows_User from '/tmp/project_dataset/data/User_knows_User.csv' DELIMITER '|' CSV HEADER; 

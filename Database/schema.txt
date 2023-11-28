@@ -1,0 +1,138 @@
+The Recipe Book App Database
+
+Data Tables
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+--  Place Table
+id                     Unique Id of a Place
+name                   Name of the Place 
+url                    URL of the Place (dbpedia link)
+type                   Type of the Place whether it is city, country or continent
+PartOfPlaceId          Id of the place to whom this place is a part of
+------------------------------------------------------------------------------
+--  Tag table
+id                     Unique Id of a tag
+name                   Name of the tag                
+url                    URL of the Tag
+------------------------------------------------------------------------------
+--  Ingredient table
+id                     Unique Id of the ingredient
+name                   Name of the ingredient
+description            Description of the ingredient
+calories               Calories in the ingredient per gram
+fat                    Fat in the ingredient per gram
+protien                Protien in the ingredient per gram
+carbs                  Carbohydrates in the ingredient per gram
+------------------------------------------------------------------------------
+--  User Table
+creationDate           Date on which the user created an account on the App
+creationTime           Time at which the user created an account on the App
+id                     Unique Id of a User
+firstName              First Name
+lastName               Last Name
+gender                 Gender
+birthday               Birth Date
+locationIP             The IP of the location from which the user was registered to the App.
+browserUsed            The browser used by the user when he/she registered to the App.
+LocationCityId         The id of the city where the user resides
+speaks                 The set of languages the user speaks seperated by a ; symbol
+email                  The set of emails the user has (cardinality: at least one) seperated by a ; symbol
+passwordHash           SHA-512 Hash value of password of the user account
+------------------------------------------------------------------------------
+--  Recipe table
+creationDate           The date on which the recipe was uploaded
+creationTime           The time at which the recipe was uploaded
+id                     The unique id of a recipe
+imageFile              The link to the imageFile of the recipe
+locationIP             The IP of the location from which the recipe was created
+browserUsed            The browser used by the user to create the recipe
+language               The language in which the recipe was created
+instruction            The instructions of the recipe
+CreatoruserId          The id of the creator of the recipe
+LocationCountryId      The country from which the recipe was uploaded
+------------------------------------------------------------------------------
+--  Comment table
+creationDate           The date on which the Comment was created
+creationTime           The time at which the Comment was created
+id                     The unique id of a comment
+locationIP             The IP of the location from which the comment was created
+browserUsed            The browser used by the user to create the comment
+content                The content of the comment
+length                 The length of the comment
+CreatorUserId          The id of the creator of the comment
+LocationCountryId      The country from which the comment was created
+ParentRecipeId         The recipe in whose response the comment was created
+ParentCommentId        The comment in whose response the comment was created
+------------------------------------------------------------------------------
+-- Comment_hasTag_Tag table
+creationDate           The date on which the Comment was created
+creationTime           The time at which the Comment was created
+CommentId              The Id of the comment
+TagId                  The Id of the tag
+------------------------------------------------------------------------------
+-- Recipe_hasTag_Tag table
+creationDate           The date on which the recipe was created
+creationTime           The time at which the recipe was created
+RecipeId               The Id of the recipe
+TagId                  The Id of the tag
+------------------------------------------------------------------------------
+-- Recipe_hasTag_Ingredient table
+creationDate           The date on which the recipe was created
+creationTime           The time at which the recipe was created
+RecipeId               The Id of the recipe
+IngredientId           The Id of the tag
+------------------------------------------------------------------------------
+-- Recipe_hasTag_Rating table
+creationDate           The date on which the recipe was created
+creationTime           The time at which the recipe was created
+RecipeId               The Id of the recipe
+UserId                 The Id of the tag (wo rated the recipe)
+rating                 Rating (on a scale of 1 to 5)
+------------------------------------------------------------------------------
+-- User_hasInterest_Tag table
+creationDate           The date on which the user created an account on the social network
+creationTime           The date on which the user created an account on the social network
+UserId                 The id of the user
+TagId                  The tag of the user
+------------------------------------------------------------------------------
+-- User_likes_Comment table
+creationDate           The date on which user liked a comment
+creationTime           The time at which user liked a comment
+UserId                 The id of the user
+CommentId              The id of the comment
+------------------------------------------------------------------------------
+-- User_likes_Recipe table
+creationDate           The date on which user liked a recipe
+creationTime           The time at which user liked a recipe
+UserId                 The id of the user
+RecipeId               The id of the recipe
+------------------------------------------------------------------------------
+-- User_knows_User table
+creationDate         The date on which a user knew another user on the social network
+creationTime         The time at which a user knew another user on the social network
+user1id              The id of one of the users
+user2id              The id of the other user
+------------------------------------------------------------------------------
+
+
+Relational Schema
+
+- City (id: bigint, PartOfPlaceId: bigint)
+- Country (id: bigint, PartOfPlaceId: bigint)
+- Continent (id: bigint, PartOfPlaceId: bigint)
+- Tag (id: bigint [pk], name: varchar [not null], url: varchar [not null])
+- Ingredient (id: bigint [pk], name: varchar [not null], description: varchar, calories: varchar [not null], fat: varchar [not null], protein: varchar [not null], carbs: varchar [not null])
+- Comment (creationDate: date [not null], creationTime: time [not null], id: bigint [not null], locationIP: varchar [not null], browserUsed: varchar [not null], content: varchar [not null], length: int [not null], CreatorUserId: bigint [not null], LocationCountryId: bigint [not null], ParentRecipeId: bigint, ParentCommentId: bigint)
+- Recipe (creationDate: date [not null], creationTime: time [not null], id: bigint [not null], imageFile: varchar, locationIP: varchar [not null], browserUsed: varchar [not null], language: varchar, instruction: varchar, length: int [not null], CreatorUserId: bigint [not null], LocationCountryId: bigint [not null])
+- User (creationDate: date [not null], creationTime: time [not null], id: bigint [pk], firstName: varchar [not null], lastName: varchar [not null], gender: varchar [not null], birthday: date [not null], locationIP: varchar [not null], browserUsed: varchar [not null], LocationCityId: bigint [not null], speaks: varchar [not null], email: varchar [not null], passwordHash: varchar [not null])
+- Comment_hasTag_Tag (creationDate: date [not null], creationTime: time [not null], CommentId: bigint [not null], TagId: bigint [not null])
+- Recipe_hasTag_Tag (creationDate: date [not null], creationTime: time [not null], RecipeId: bigint [not null], TagId: bigint [not null])
+- Recipe_hasTag_Ingredient (creationDate: date [not null], creationTime: time [not null], RecipeId: bigint [not null], IngredientId: bigint [not null])
+- Recipe_hasTag_Rating (creationDate: date [not null], creationTime: time [not null], RecipeId: bigint [not null], UserId: bigint [not null], rating: int [not null])
+- User_hasInterest_Tag (creationDate: date [not null], creationTime: time [not null], UserId: bigint [not null], TagId: bigint [not null])
+- User_likes_Comment (creationDate: date [not null], creationTime: time [not null], UserId: bigint [not null], CommentId: bigint [not null])
+- User_likes_Recipe (creationDate: date [not null], creationTime: time [not null], UserId: bigint [not null], RecipeId: bigint [not null])
+- User_knows_User (creationDate: date [not null], creationTime: time [not null], User1id: bigint [not null], User2id: bigint [not null])
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
